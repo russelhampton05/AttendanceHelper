@@ -41,12 +41,12 @@ namespace AttendanceHelper
             {
                 this.log = new Logger(Logger.LogLevel.None);
             }
-           login = new LoginHandler(PostGet_WPF.Properties.Resources.LoginEndpoint,
-               PostGet_WPF.Properties.Resources.Password,
-               PostGet_WPF.Properties.Resources.UserName,
-               client);
+           //login = new LoginHandler(,
+           //    PostGet_WPF.Properties.Resources.Password,
+           //    PostGet_WPF.Properties.Resources.UserName,
+           //    client);
 
-            settings = new SettingSelectHandler(client, PostGet_WPF.Properties.Resources.SettingEnvironmentEndpoint);
+           // settings = new SettingSelectHandler(client, PostGet_WPF.Properties.Resources.SettingEnvironmentEndpoint);
         }
     }
 
