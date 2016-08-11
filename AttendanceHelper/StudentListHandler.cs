@@ -14,15 +14,18 @@ namespace AttendanceHelper
         SettingSelectHandler settings;
         HTTPHandler client = null;
         Logger log = null;
-        public StudentListHandler(string baseAddress, Logger log = null)
-        {
+        User user = null;
+        public StudentListHandler(User user, string baseAddress, Logger log = null)
+        { 
             client = new HTTPHandler(baseAddress);
+            this.user = user;
             Init(log);
         }
-        public StudentListHandler(HTTPHandler client, Logger log = null)
+        public StudentListHandler(User user, HTTPHandler client, Logger log = null)
         {
+        
             this.client = client;
-            
+            this.user = user;
             Init(log);
            
         }
@@ -32,7 +35,7 @@ namespace AttendanceHelper
         }
         public void Init(Logger log)
         {
-            //find an android friendly way to do this without using resource
+        
            if(log != null)
             {
                 this.log = log;
@@ -41,10 +44,9 @@ namespace AttendanceHelper
             {
                 this.log = new Logger(Logger.LogLevel.None);
             }
-           //login = new LoginHandler(,
-           //    PostGet_WPF.Properties.Resources.Password,
-           //    PostGet_WPF.Properties.Resources.UserName,
-           //    client);
+
+            LoginHandler login = new LoginHandler(Properties.Resources.LoginEndpoint, user.password, user.username, client, log);
+            SettingSelectHandler settings = new SettingSelectHandler(client, Properties.Resources.SetSessionEndpoint, log);
 
            // settings = new SettingSelectHandler(client, PostGet_WPF.Properties.Resources.SettingEnvironmentEndpoint);
         }
