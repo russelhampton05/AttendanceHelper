@@ -25,16 +25,23 @@ namespace AttendanceHelper
         //data binding is for nubs
         string _postContent;
         string _extensionUrl;
+        string _username;
+        string _password;
+        string _key;
         string _baseUrl;
         string responseText;
         Logger log = new Logger(Logger.LogLevel.Verbose);
         HTTPHandler client = null;
         LoginHandler login = null;
+        UserManager usermananger;
         public void UpdateStrings()
         {
             _postContent = postContent.Text;
             _extensionUrl = extensionURL.Text;
             _baseUrl = baseUri.Text;
+            _username = userName.Text;
+            _password = password.Text;
+            _key = key.Text;
             responseText = ResponseBox.Text;
         }
         public void UpdateUI()
@@ -43,12 +50,15 @@ namespace AttendanceHelper
             extensionURL.Text = _extensionUrl;
             baseUri.Text = _baseUrl;
             ResponseBox.Text = responseText;
+            userName.Text = _username;
+            password.Text = _password;
+            key.Text = _key;
         }
         public MainWindow()
         {
             InitializeComponent();
+            usermananger = new UserManager(log);
             baseUri.Text = @"https://grades.tomballisd.net/TAC/";
-
         }
 
         private async void MakePost_Click(object sender, RoutedEventArgs e)
@@ -56,7 +66,6 @@ namespace AttendanceHelper
             UpdateStrings();
             if (client == null)
                 return;
-
             var response = await client.MakePost(new StringContent(_postContent), _extensionUrl);
             responseText = await GetResponseString(response);
             UpdateUI();
@@ -89,6 +98,29 @@ namespace AttendanceHelper
             responseText = await response.Content.ReadAsStringAsync();
             UpdateUI();
 
+        }
+
+        private void makeUser_Click(object sender, RoutedEventArgs e)
+        {
+            User user = new User();
+            user.password = password.Text;
+            user.username = userName.Text;
+            foreach(byte b in user.key) { _key += b.ToString(); }
+            usermananger.SaveUser(user);
+            UpdateUI();
+        }
+
+        private void getUser_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateStrings();
+            User user = usermananger.GetUser(_username);
+            if(user!=null)
+            {
+                _username = user.username;
+                _password = user.password;
+                foreach (byte b in user.key) { _key += b.ToString(); }
+            }
+            UpdateUI();
         }
     }
 }

@@ -14,13 +14,17 @@
         <TextBox x:Name="extensionURL" HorizontalAlignment="Left" Height="23" Margin="10,90,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <Label Content="Base URL" Margin="0,255,709,192"/>
         <TextBox x:Name="baseUri" HorizontalAlignment="Left" Height="23" Margin="0,282,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="324"/>
-        <TextBlock x:Name="ResponseBox" HorizontalAlignment="Left" Height="335" Margin="373,90,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="375"/>
-        <Label x:Name="fullURL" Margin="288,42,10,404"></Label>
+        <TextBlock x:Name="ResponseBox" HorizontalAlignment="Left" Height="335" Margin="348,19,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="375"/>
 
         <Button x:Name="MakePost" Content="MakePost" HorizontalAlignment="Left" Margin="156,33,0,0" VerticalAlignment="Top" Width="75" Click="MakePost_Click"/>
         <Button x:Name="MakeGet" Content="MakeGet" HorizontalAlignment="Left" Margin="156,90,0,0" VerticalAlignment="Top" Width="75" Click="MakeGet_Click"/>
         <Button x:Name="MakeClient" Content="MakeClient" HorizontalAlignment="Left" Margin="-1,310,0,0" VerticalAlignment="Top" Width="75" Click="MakeClient_Click"/>
         <Button x:Name="LogOn" Content="Log On" HorizontalAlignment="Left" Margin="156,192,0,0" VerticalAlignment="Top" Width="75" Click="LogOn_Click"/>
+        <TextBox x:Name="userName" HorizontalAlignment="Left" Height="23" Margin="10,407,0,0" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="141"/>
+        <TextBox x:Name="password" HorizontalAlignment="Left" Height="23" Margin="156,407,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="154"/>
+        <TextBox x:Name="key" HorizontalAlignment="Left" Height="23" Margin="338,407,0,0" TextWrapping="Wrap" Text="Key" VerticalAlignment="Top" Width="202"/>
+        <Button x:Name="makeUser" Content="Make User" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="75" Click="makeUser_Click"/>
+        <Button x:Name="getUser" Content="Get User" HorizontalAlignment="Left" Margin="156,380,0,0" VerticalAlignment="Top" Width="75" Click="getUser_Click"/>
 
     </Grid>
 

@@ -20,25 +20,25 @@ namespace AttendanceHelper
         }
     }
 
-    public class LoginFailed : PostFailed
+    public class LoginPostFailed : PostFailed
     {
-        public LoginFailed(HttpResponseMessage r)
+        public LoginPostFailed(HttpResponseMessage r)
             :base(r)
         {
 
         }
     }
-    public class SetSessionFailed : PostFailed
+    public class SetSessionPostFailed : PostFailed
     {
-        public SetSessionFailed(HttpResponseMessage r)
+        public SetSessionPostFailed(HttpResponseMessage r)
             :base(r)
         {
 
         }
     }
-    public class SubmitAttendanceFailed : PostFailed
+    public class SubmitAttendancePostFailed : PostFailed
     {
-        public SubmitAttendanceFailed(HttpResponseMessage r)
+        public SubmitAttendancePostFailed(HttpResponseMessage r)
             :base(r)
         {
 
