@@ -8,38 +8,37 @@ namespace AttendanceHelper
 {
     public class PostFailed : Exception
     {
-        bool IsSuccessCode;
-        HttpStatusCode Status;
-        string Body;
+   
+       
+        public readonly HttpResponseMessage reseponse = null;
 
-        public PostFailed(HttpResponseMessage r)
+        public PostFailed(HttpResponseMessage r, string message = "")
+            :base(message)
         {
-            IsSuccessCode = r.IsSuccessStatusCode;
-            Status = r.StatusCode;
-            Body = r.Content.ReadAsStringAsync().Result;
+            reseponse = r;
         }
     }
 
     public class LoginPostFailed : PostFailed
     {
-        public LoginPostFailed(HttpResponseMessage r)
-            :base(r)
+        public LoginPostFailed(HttpResponseMessage r, string message = "")
+            :base(r, message)
         {
 
         }
     }
     public class SetSessionPostFailed : PostFailed
     {
-        public SetSessionPostFailed(HttpResponseMessage r)
-            :base(r)
+        public SetSessionPostFailed(HttpResponseMessage r, string message = "")
+            :base(r, message)
         {
 
         }
     }
     public class SubmitAttendancePostFailed : PostFailed
     {
-        public SubmitAttendancePostFailed(HttpResponseMessage r)
-            :base(r)
+        public SubmitAttendancePostFailed(HttpResponseMessage r, string message = "")
+            :base(r, message)
         {
 
         }

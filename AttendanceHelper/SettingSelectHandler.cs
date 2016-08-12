@@ -25,21 +25,25 @@ namespace AttendanceHelper
                 new KeyValuePair<string,string>("EnvironmentConfiguration.SummerSchool","false"),
                 new KeyValuePair<string, string>("EnvironmentConfiguration.Database", "10"),
                 new KeyValuePair<string, string>("EnvironmentConfiguration.SchoolYear", ""),
-                new KeyValuePair<string, string>("EnvironmentConfiguration.UserMayImpersonate", "False"),
+                new KeyValuePair<string, string>("EnvironmentConfiguration.UserMayImpersonate", "false"),
                 new KeyValuePair<string, string>("okButton", "")
             });
             }
-            try
-            {
+          
                 response = await client.MakePost(values, extensionURL);
-                //logic to determine if we really succeeded
-                // throw new PostFailed(response);
-            }
-            catch (Exception e)
+            //logic to determine if we really succeeded
+            // throw new PostFailed(response);
+            if (response == null)
             {
-                log.Log(Logger.LogLevel.Errors, "Failed select environment settings");
-                throw new PostFailed(response);
+                PostFailed error = new PostFailed(response, "Post response null");
+                throw error;
             }
+            else if (response.RequestMessage.RequestUri.ToString().IndexOf(extensionURL) != -1)
+            {
+                SetSessionPostFailed error = new SetSessionPostFailed(response, "Login request rejected by authorizor");
+                throw error;
+            }
+
             return response;
         }
     }

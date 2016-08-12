@@ -71,6 +71,7 @@ namespace AttendanceHelper
                 if (allFilesPresent)
                 {
                     user = new User();
+                    user.appUser = username;
                     user.password = File.ReadAllText(passwordPath);
                     user.key = File.ReadAllBytes(keyPath);
                     user.username = File.ReadAllText(userPath);
@@ -97,9 +98,9 @@ namespace AttendanceHelper
                 password = EncryptionManager.SimpleEncrypt(password, key);
                 username = EncryptionManager.SimpleEncrypt(username, key);
 
-                string passwordPath = pathToPasswordPrefix + user.username+ pathToPasswordTail;
-                string userPath = pathToUsernamePrefix + user.username + pathToUsernameTail;
-                string keyPath = pathToKeyPrefix + user.username + pathToKeyTail;
+                string passwordPath = pathToPasswordPrefix + user.appUser + pathToPasswordTail;
+                string userPath = pathToUsernamePrefix + user.appUser + pathToUsernameTail;
+                string keyPath = pathToKeyPrefix + user.appUser + pathToKeyTail;
 
                 File.WriteAllText(passwordPath, password);
                 File.WriteAllText(userPath, username);
@@ -127,6 +128,7 @@ namespace AttendanceHelper
 
     public class User
     {
+        public string appUser;
         public string username;
         public string password;
         public byte[] key;

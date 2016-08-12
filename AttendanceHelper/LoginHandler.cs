@@ -11,19 +11,16 @@ namespace AttendanceHelper
 
     class LoginHandler : BaseHTTPHandler
     {
-
-        string password;
-        string userName;
+        User user;
         string loginUrl;
 
         
 
 
-        public LoginHandler(string loginUrl, string password, string username, HTTPHandler client, Logger log = null)
+        public LoginHandler(string loginUrl, User user, HTTPHandler client, Logger log = null)
             : base(client, log)
         {
-            this.password = password;
-            this.userName = username;
+            this.user = user;
             this.loginUrl = loginUrl;
         }
         public async Task<HttpResponseMessage> Login()
@@ -32,21 +29,24 @@ namespace AttendanceHelper
             HttpResponseMessage response = null;
             FormUrlEncodedContent postParams = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string,string>("UserName",userName),
-                new KeyValuePair<string, string>("Password",password)
+                new KeyValuePair<string,string>("UserName",user.username),
+                new KeyValuePair<string, string>("Password",user.password)
             });
 
-            try
-            {
+           
                 response = await client.MakePost(postParams, loginUrl);
-                //logic to determine if we really did log in else throw exception
-                // throw new LoginFailed(response);
-            }
-            catch (Exception e)
-            {
-                log.Log(Logger.LogLevel.Errors, "Failed to log on");
-                throw new PostFailed(response);
-            }
+                if(response == null)
+                {
+                    PostFailed error = new PostFailed(response, "Post response null");
+                    throw error;
+                }
+                else if(response.RequestMessage.RequestUri.ToString().IndexOf(loginUrl)!=-1)
+                {
+                    LoginPostFailed error = new LoginPostFailed(response, "Login request rejected by authorizor");
+                    throw error;
+                }
+          
+            
             return response;
         }
 

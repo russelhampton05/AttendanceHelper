@@ -29,11 +29,14 @@ namespace AttendanceHelper
         string _password;
         string _key;
         string _baseUrl;
+        string _appUser;
         string responseText;
         Logger log = new Logger(Logger.LogLevel.Verbose);
         HTTPHandler client = null;
         LoginHandler login = null;
         UserManager usermananger;
+        User user;
+        StudentListHandler studentListHandler;
         public void UpdateStrings()
         {
             _postContent = postContent.Text;
@@ -41,6 +44,7 @@ namespace AttendanceHelper
             _baseUrl = baseUri.Text;
             _username = userName.Text;
             _password = password.Text;
+            _appUser = appUser.Text;
             _key = key.Text;
             responseText = ResponseBox.Text;
         }
@@ -52,6 +56,7 @@ namespace AttendanceHelper
             ResponseBox.Text = responseText;
             userName.Text = _username;
             password.Text = _password;
+            appUser.Text = _appUser;
             key.Text = _key;
         }
         public MainWindow()
@@ -89,7 +94,7 @@ namespace AttendanceHelper
         {
             UpdateStrings();
             client = new HTTPHandler(_baseUrl, log);
-            login = new LoginHandler(string.Empty, string.Empty, string.Empty, client);
+            login = new LoginHandler(Properties.Resources.LoginEndpoint, user, client);
         }
 
         private async void LogOn_Click(object sender, RoutedEventArgs e)
@@ -99,12 +104,15 @@ namespace AttendanceHelper
             UpdateUI();
 
         }
-
+        
         private void makeUser_Click(object sender, RoutedEventArgs e)
         {
+            UpdateStrings();
             User user = new User();
+            user.appUser = _appUser;
             user.password = password.Text;
             user.username = userName.Text;
+            _key = string.Empty;
             foreach(byte b in user.key) { _key += b.ToString(); }
             usermananger.SaveUser(user);
             UpdateUI();
@@ -113,14 +121,23 @@ namespace AttendanceHelper
         private void getUser_Click(object sender, RoutedEventArgs e)
         {
             UpdateStrings();
-            User user = usermananger.GetUser(_username);
+            User user = usermananger.GetUser(_appUser);
             if(user!=null)
             {
                 _username = user.username;
                 _password = user.password;
+                _key = string.Empty;
                 foreach (byte b in user.key) { _key += b.ToString(); }
+                this.user = user;
             }
             UpdateUI();
+        }
+
+        private void getStudents_Click(object sender, RoutedEventArgs e)
+        {
+            MakeClient_Click(new object(), new RoutedEventArgs());
+            studentListHandler = new StudentListHandler(user, client, log);
+            
         }
     }
 }
