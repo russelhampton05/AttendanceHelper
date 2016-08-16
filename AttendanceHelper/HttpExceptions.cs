@@ -6,6 +6,16 @@ using System.Text;
 
 namespace AttendanceHelper
 {
+    public class GetFailed : Exception
+    {
+        public readonly HttpResponseMessage reseponse = null;
+
+        public GetFailed(HttpResponseMessage r, string message = "")
+            :base(message)
+        {
+            reseponse = r;
+        }
+    }
     public class PostFailed : Exception
     {
    
@@ -43,4 +53,5 @@ namespace AttendanceHelper
 
         }
     }
+  
 }

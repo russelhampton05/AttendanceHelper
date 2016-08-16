@@ -9,14 +9,15 @@ namespace AttendanceHelper
    
     class StudentListHandler
     {
-        enum RedirectUri { Login, Settings };
+        enum RedirectUri { Login, Settings, AttendanceGet };
         Queue<Tuple<string, RedirectUri>> script;
         Dictionary<string, RedirectUri> endPoints;
+
         List<Student> students;
         LoginHandler login;
         SettingSelectHandler settings;
-    
-        const int maxRedirects = 10;
+        AttendanceHandler attendance;
+        const int maxRedirects = 15;
         HTTPHandler client = null;
         Logger log = null;
         User user = null;
@@ -50,9 +51,14 @@ namespace AttendanceHelper
 
                         case RedirectUri.Settings:
                             response = await settings.SettingsPost(); break;
+                        case RedirectUri.AttendanceGet:
+                            response = await attendance.GetAttendance(); break;
                         default:
                             break;
+
+                        
                     }
+                    enqueueRedirect(script, response);
                 }
                 catch(LoginPostFailed e)
                 {
@@ -66,13 +72,18 @@ namespace AttendanceHelper
                 {
                     //Something way bad happened
                 }
+                catch(GetFailed e)
+                {
+                    //I should really log
+                }
                 catch(Exception e)
                 {
                     //I'm an awful person.
                 }
+                 redirects++;
             }
 
-            redirects++;
+         
             
         }
        
@@ -88,27 +99,30 @@ namespace AttendanceHelper
                 this.log = new Logger(Logger.LogLevel.None);
             }
 
-            LoginHandler login = new LoginHandler(Properties.Resources.LoginEndpoint, user, client, log);
-            SettingSelectHandler settings = new SettingSelectHandler(client, Properties.Resources.SetSessionEndpoint, log);
+            login = new LoginHandler(Properties.Resources.LoginEndpoint, user, client, log);
+            settings = new SettingSelectHandler(client, Properties.Resources.SetSessionEndpoint, log);
+            attendance = new AttendanceHandler(Properties.Resources.AttendanceEndpoint, user, client, log);
             endPoints = new Dictionary<string, RedirectUri>();
             populateEndpoints(endPoints);
             script = new Queue<Tuple<string, RedirectUri>>();
-
+            initScript(script);
             
            // settings = new SettingSelectHandler(client, PostGet_WPF.Properties.Resources.SettingEnvironmentEndpoint);
         }
 
         //the endpoints and order needed to get to the goal
-        private void populateScript(Queue<Tuple<string, RedirectUri>> script)
+        private void initScript(Queue<Tuple<string, RedirectUri>> script)
         {
             script.Enqueue(new Tuple<string, RedirectUri>(Properties.Resources.LoginEndpoint, RedirectUri.Login));
             script.Enqueue(new Tuple<string, RedirectUri>(Properties.Resources.SetSessionEndpoint, RedirectUri.Settings));
+            script.Enqueue(new Tuple<string, RedirectUri>(Properties.Resources.AttendanceEndpoint, RedirectUri.AttendanceGet));
         }
         //all known endpoints for website
         private void populateEndpoints(Dictionary<string, RedirectUri> endpoints)
         {
             endPoints.Add(Properties.Resources.LoginEndpoint, RedirectUri.Login);
             endPoints.Add(Properties.Resources.SetSessionEndpoint, RedirectUri.Settings);
+            endpoints.Add(Properties.Resources.AttendanceEndpoint, RedirectUri.AttendanceGet);
         }
         private void enqueueRedirect(Queue<Tuple<string, RedirectUri>> script, HttpResponseMessage response)
         {

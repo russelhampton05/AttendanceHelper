@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,11 @@ namespace AttendanceHelper
                 SetSessionPostFailed error = new SetSessionPostFailed(response, "Login request rejected by authorizor");
                 throw error;
             }
-
+            else if (response.StatusCode != HttpStatusCode.OK)
+            {
+                SetSessionPostFailed error = new SetSessionPostFailed(response, "Web status not ok");
+                throw error;
+            }
             return response;
         }
     }

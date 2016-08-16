@@ -14,7 +14,7 @@ namespace AttendanceHelper
         User user;
         string loginUrl;
 
-        
+
 
 
         public LoginHandler(string loginUrl, User user, HTTPHandler client, Logger log = null)
@@ -25,7 +25,6 @@ namespace AttendanceHelper
         }
         public async Task<HttpResponseMessage> Login()
         {
-            bool loginSuccess = true;
             HttpResponseMessage response = null;
             FormUrlEncodedContent postParams = new FormUrlEncodedContent(new[]
             {
@@ -33,20 +32,25 @@ namespace AttendanceHelper
                 new KeyValuePair<string, string>("Password",user.password)
             });
 
-           
-                response = await client.MakePost(postParams, loginUrl);
-                if(response == null)
-                {
-                    PostFailed error = new PostFailed(response, "Post response null");
-                    throw error;
-                }
-                else if(response.RequestMessage.RequestUri.ToString().IndexOf(loginUrl)!=-1)
-                {
-                    LoginPostFailed error = new LoginPostFailed(response, "Login request rejected by authorizor");
-                    throw error;
-                }
-          
-            
+
+            response = await client.MakePost(postParams, loginUrl);
+            if (response == null)
+            {
+                PostFailed error = new PostFailed(response, "Post response null");
+                throw error;
+            }
+            else if (response.RequestMessage.RequestUri.ToString().IndexOf(loginUrl) != -1)
+            {
+                LoginPostFailed error = new LoginPostFailed(response, "Login request rejected by authorizor");
+                throw error;
+            }
+            else if (response.StatusCode != HttpStatusCode.OK)
+            {
+                LoginPostFailed error = new LoginPostFailed(response, "Web Status not ok");
+                throw error;
+            }
+
+
             return response;
         }
 

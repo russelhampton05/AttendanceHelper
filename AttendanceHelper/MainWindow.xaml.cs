@@ -136,7 +136,9 @@ namespace AttendanceHelper
         private void getStudents_Click(object sender, RoutedEventArgs e)
         {
             MakeClient_Click(new object(), new RoutedEventArgs());
+            user = usermananger.GetUser("jessica");
             studentListHandler = new StudentListHandler(user, client, log);
+            studentListHandler.GetStudentList();
             
         }
     }
