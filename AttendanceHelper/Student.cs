@@ -6,9 +6,9 @@ namespace AttendanceHelper
 {
     class Student
     {
-        int id {get; set;}
-        string name {get; set;}
-        int homeroom {get; set;}
+        public int id {get; set;}
+        public string name {get; set;}
+      
 
         public Student()
         {
@@ -18,7 +18,7 @@ namespace AttendanceHelper
         {
             this.id = other.id;
             this.name = other.name;
-            this.homeroom = other.homeroom;
+           
         }
     }
 }

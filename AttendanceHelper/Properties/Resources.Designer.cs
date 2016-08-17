@@ -70,6 +70,15 @@ namespace AttendanceHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to StudentId.
+        /// </summary>
+        internal static string AttendanceFuncName {
+            get {
+                return ResourceManager.GetString("AttendanceFuncName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://grades.tomballisd.net/TAC/.
         /// </summary>
         internal static string BsaeUrl {

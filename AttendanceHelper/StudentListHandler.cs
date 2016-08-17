@@ -52,7 +52,7 @@ namespace AttendanceHelper
                         case RedirectUri.Settings:
                             response = await settings.SettingsPost(); break;
                         case RedirectUri.AttendanceGet:
-                            response = await attendance.GetAttendance(); break;
+                            response = await attendance.PopulateStudentList(); break;
                         default:
                             break;
 

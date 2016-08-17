@@ -120,6 +120,9 @@
   <data name="AttendanceEndpoint" xml:space="preserve">
     <value>Attendance/</value>
   </data>
+  <data name="AttendanceFuncName" xml:space="preserve">
+    <value>StudentId</value>
+  </data>
   <data name="BsaeUrl" xml:space="preserve">
     <value>https://grades.tomballisd.net/TAC/</value>
   </data>
