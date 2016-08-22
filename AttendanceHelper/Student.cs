@@ -4,15 +4,15 @@ using System.Text;
 
 namespace AttendanceHelper
 {
-    class Student
+    public class Student
     {
         public int id {get; set;}
         public string name {get; set;}
-      
+        public bool present { get; set; }
 
         public Student()
         {
-
+            present = false;
         }
         public Student(Student other)
         {

@@ -64,10 +64,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AttendanceHandler.cs" />
+    <Compile Include="AttendanceWindow.xaml.cs">
+      <DependentUpon>AttendanceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingSelectHandler.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentListHandler.cs" />
+    <Compile Include="StudentPresenterVM.cs" />
     <Compile Include="UserManagement.cs" />
+    <Page Include="AttendanceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
