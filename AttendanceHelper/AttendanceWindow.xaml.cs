@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using System.ComponentModel;
 namespace AttendanceHelper
 {
     /// <summary>
@@ -20,11 +20,37 @@ namespace AttendanceHelper
     public partial class AttendanceWindow : Window
     {
         StudentPresenterVM studentVM;
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        private bool canClose = true;
+        
         public AttendanceWindow(List<Student> students)
         {
+            this.KeyDown += new KeyEventHandler(KeyPressed);
+
             InitializeComponent();
+            
+            this.WindowStyle = WindowStyle.ToolWindow;
             studentVM = new StudentPresenterVM(students);
             this.DataContext = studentVM;
+
         }
+      
+        private void KeyPressed( object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape)
+            {
+                //do stuff
+                canClose = false;
+                this.Close();
+            }
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = canClose;
+            base.OnClosing(e);
+           
+        }
+
     }
 }

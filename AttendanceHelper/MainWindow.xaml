@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="532.481" Width="1014.219">
     <Grid>
-        <Button x:Name="launchAttendance" Content="Launch Attendance" Background ="LightGreen" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="251" Click="launchAttendance_Click"/>
+        <Button x:Name="launchAttendance" Content="Launch Attendance" Background ="LightGreen " HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="251" Click="launchAttendance_Click"/>
         <TextBox x:Name="userName" HorizontalAlignment="Left" Height="23" Margin="10,407,0,0" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="141"/>
         <TextBox x:Name="password" HorizontalAlignment="Left" Height="23" Margin="156,407,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="154"/>
         <TextBox x:Name="key" HorizontalAlignment="Left" Height="23" Margin="338,407,0,0" TextWrapping="Wrap" Text="Key" VerticalAlignment="Top" Width="202"/>

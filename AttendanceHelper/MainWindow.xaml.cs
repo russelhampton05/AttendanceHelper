@@ -112,13 +112,39 @@ namespace AttendanceHelper
 
         private async void launchAttendance_Click(object sender, RoutedEventArgs e)
         {
-            MakeClient_Click(new object(), new RoutedEventArgs());
-            user = usermananger.GetUser("jessica");
-            studentListHandler = new StudentListHandler(user, client, log);
-            var students = await studentListHandler.GetStudentList();
+           // MakeClient_Click(new object(), new RoutedEventArgs());
+          //  user = usermananger.GetUser("jessica");
+           // studentListHandler = new StudentListHandler(user, client, log);
+           // var students = await studentListHandler.GetStudentList();
+
+            //make some students
+            List<Student> students = new List<Student>();
+            Student newStudent = new Student();
+            newStudent.name = "billy bob";
+            students.Add(newStudent);
+            newStudent = new Student();
+            newStudent.name = "Nick cage";
+            students.Add(newStudent);
+            newStudent = new Student();
+            newStudent.name = "Tay Tay";
+            students.Add(newStudent);
+            List<Student> otherStudents= new List<Student>();
+            foreach(Student s in students)
+            {
+                Student newerStudent = new Student(s);
+                otherStudents.Add(s);
+                otherStudents.Add(s);
+                otherStudents.Add(s);
+                otherStudents.Add(s);
+                otherStudents.Add(s);
+                otherStudents.Add(s);
+            }
+
+            students.AddRange(otherStudents);
             attendanceWindow = new AttendanceWindow(students);
             this.Hide();
             attendanceWindow.ShowDialog();
+            this.Show();
         }
     }
 }

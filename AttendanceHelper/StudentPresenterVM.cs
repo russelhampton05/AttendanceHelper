@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AttendanceHelper
@@ -70,11 +71,13 @@ namespace AttendanceHelper
             name = student.name;
             present = student.present;
             ClickCommand = new ActionCommand(Click);
+           
         }
 
         private void Click()
         {
             student.present = !student.present;
+            present = !present;
         }
 
     }

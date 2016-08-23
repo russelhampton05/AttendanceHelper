@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AttendanceHelper"
         mc:Ignorable="d"
-        Title="AttendanceWindow" Height="300" Width="300"
+        Title="AttendanceWindow" Height="550" Width="800"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        d:DesignHeight="300" d:DesignWidth="300">
+        d:DesignHeight="550" d:DesignWidth="800">
+    
     <Grid>
-        <Image Source="Penguins.jpg" Stretch="UniformToFill" />
+        
+        <Image Source="images/lindsey.jpg" Stretch="Uniform"/>
         <Border x:Name="darkenBorder" Background="Black" Opacity="0.6" />
         <ItemsControl ItemsSource="{Binding Tiles}" Background="Transparent" Margin="5">
             <ItemsControl.ItemsPanel>
@@ -18,9 +20,8 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="local:TileModel">
-                    <Button Content="{Binding Text}" 
-                               Command="{Binding ClickCommand}" Width="120" Height="110" Padding="5" RenderTransformOrigin="0.5, 0.5"  >
+                <DataTemplate DataType="local:StudentModel">
+                    <Button Content="{Binding name}" Command="{Binding ClickCommand}" Width="120" Height="110" Padding="5" RenderTransformOrigin="0.5, 0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -37,9 +38,22 @@
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Border x:Name="tileBackground" Grid.RowSpan="2" Background="{TemplateBinding Background}" Opacity="0.9" />
-                                        <Image Source="{Binding Image}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50"  />
-                                        <ContentPresenter TextElement.Foreground="White" Grid.Row="1" HorizontalAlignment="Center" Margin="3,10" />
+                                        <Border x:Name="tileBackground" Grid.RowSpan="2"  Opacity="0.7" >
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger  Binding="{Binding present}" Value="True">
+                                                            <Setter Property="Background" Value="LightGreen"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger  Binding="{Binding present}" Value="False">
+                                                            <Setter Property="Background"  Value="LightSalmon"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <ContentPresenter TextElement.FontWeight ="ExtraBlack" TextElement.FontSize="20" TextElement.Foreground="Black" Grid.Row="1" HorizontalAlignment="Center" Margin="3,10">
+                                        </ContentPresenter>
                                     </Grid>
                                 </Border>
                             </ControlTemplate>
@@ -67,6 +81,7 @@
                             </EventTrigger>
                         </Button.Triggers>
                     </Button>
+               
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
