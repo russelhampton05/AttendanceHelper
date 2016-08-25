@@ -15,11 +15,15 @@ using System.ComponentModel;
 namespace AttendanceHelper
 {
     /// <summary>
-    /// Interaction logic for AttendanceWindow.xaml
+    /// I heavily borrowed the xaml from
+    /// http://stackoverflow.com/questions/15652597/wpf-toolkit-for-tile-listview
+    /// and adapted it to my needs. Origional post by adabyron. Great example!
+    /// 
     /// </summary>
     public partial class AttendanceWindow : Window
     {
         StudentPresenterVM studentVM;
+
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
         private bool canClose = true;

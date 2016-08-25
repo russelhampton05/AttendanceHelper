@@ -5,17 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AttendanceHelper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="532.481" Width="1014.219">
-    <Grid>
-        <Button x:Name="launchAttendance" Content="Launch Attendance" Background ="LightGreen " HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="251" Click="launchAttendance_Click"/>
-        <TextBox x:Name="userName" HorizontalAlignment="Left" Height="23" Margin="10,407,0,0" TextWrapping="Wrap" Text="UserName" VerticalAlignment="Top" Width="141"/>
-        <TextBox x:Name="password" HorizontalAlignment="Left" Height="23" Margin="156,407,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="154"/>
-        <TextBox x:Name="key" HorizontalAlignment="Left" Height="23" Margin="338,407,0,0" TextWrapping="Wrap" Text="Key" VerticalAlignment="Top" Width="202"/>
-        <Button x:Name="makeUser" Content="Make User" Background ="LightGreen" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="75" Click="makeUser_Click"/>
-        <Button x:Name="getUser" Content="Get User" HorizontalAlignment="Left" Background="LightPink" Margin="156,380,0,0" VerticalAlignment="Top" Width="75" Click="getUser_Click"/>
-        <TextBox x:Name="appUser" HorizontalAlignment="Left" Height="23" Margin="120,338,0,0" TextWrapping="Wrap" Text="App User" VerticalAlignment="Top" Width="141"/>
-       
-        
-    </Grid>
+        Title="AttendanceHelper" Height="532.481" Width="1014.219">
+
+    <DockPanel HorizontalAlignment="Center" Background="AliceBlue">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="100,150,100,0">
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="App Username" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
+                <TextBox Text="{Binding user.appname, Mode=TwoWay}" DockPanel.Dock="Left" Margin="25,5,5,5" Width="180" Height="30" ToolTip="If a user has been saved, typing only the app username and hitting login will populate fields"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Website Username" Margin="5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="5" Width="180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Website Password" Margin="5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="8,5,5,5" Width="180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Email" Margin="5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="75,5,5,5" Width="180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                <Button Content="Login" DockPanel.Dock="Right" Height="25" Margin ="5" Width="50"  Command="{Binding LoginCommand}" ToolTip="Fill out app username and login to get saved user"></Button>
+                <Button Content="Attendance" DockPanel.Dock="Right" Height="25" Width="100" Margin="5"></Button>
+                <Button Content="Save User" DockPanel.Dock="Right" Height="25" Width="100" Margin="5"></Button>
+            </DockPanel>
+        </DockPanel>
+      
+    </DockPanel>
+
+
+
 
 </Window>

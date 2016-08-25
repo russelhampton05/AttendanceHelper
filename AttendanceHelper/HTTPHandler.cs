@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace AttendanceHelper
 {
+    //Core class for all the other handlers. Each other handler owns a copy (the same copy) of this class.
+    //HttpClient object does most of the heavy lifting. The .NET tools are quite powerful.
     public class HTTPHandler
     {
         Logger log;

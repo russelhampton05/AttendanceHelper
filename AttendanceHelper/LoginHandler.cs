@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AttendanceHelper
 {
-
+    //Handles user credentials and logging in.
     class LoginHandler : BaseHTTPHandler
     {
         User user;

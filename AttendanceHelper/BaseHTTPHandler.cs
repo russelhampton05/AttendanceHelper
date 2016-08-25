@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AttendanceHelper
 {
-  
+    //All handlers need these objects, so a simple base class is created for ease of use.
     public class BaseHTTPHandler
     {
 

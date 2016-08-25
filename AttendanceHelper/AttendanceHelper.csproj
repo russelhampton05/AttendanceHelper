@@ -68,6 +68,7 @@
     <Compile Include="AttendanceWindow.xaml.cs">
       <DependentUpon>AttendanceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainVM.cs" />
     <Compile Include="SettingSelectHandler.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentListHandler.cs" />
@@ -124,7 +125,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\lindsey.jpg" />
+    <Resource Include="images\background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

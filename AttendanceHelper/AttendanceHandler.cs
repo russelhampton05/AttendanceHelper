@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 namespace AttendanceHelper
 {
+    /// <summary>
+    /// Handles getting student list as well as posting attendance information
+    /// </summary>
     class AttendanceHandler : BaseHTTPHandler
     {
-       
-            
-
         User user;
         string attendanceUrl;
         List<Student> students;

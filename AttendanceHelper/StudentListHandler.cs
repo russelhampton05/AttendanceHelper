@@ -8,7 +8,12 @@ using System.Windows;
 
 namespace AttendanceHelper
 {
-
+    /// <summary>
+    /// This class owns handlers. There is one handler per actual webpage in the chain of pages that must be navigated in order to submit attendance
+    /// as well as generate the studentlist.
+    /// 
+    /// This class will also update the student list (attendance) to the website.
+    /// </summary>
     class StudentListHandler
     {
         enum RedirectUri { Login, Settings, AttendanceGet };
@@ -37,6 +42,9 @@ namespace AttendanceHelper
             Init(log);
 
         }
+
+        //loop through the known urls that must be navigated in order. If a redirect recommends that another page gets 
+        //visited mid-script, then enqueue this redirect to the script.
         public async Task<List<Student>> GetStudentList()
         {
 
@@ -129,13 +137,15 @@ namespace AttendanceHelper
             script.Enqueue(new Tuple<string, RedirectUri>(Properties.Resources.SetSessionEndpoint, RedirectUri.Settings));
             script.Enqueue(new Tuple<string, RedirectUri>(Properties.Resources.AttendanceEndpoint, RedirectUri.AttendanceGet));
         }
-        //all known endpoints for website
+        //all known endpoints for website so we know what the redirect messages are telling us. 
         private void populateEndpoints(Dictionary<string, RedirectUri> endpoints)
         {
             endPoints.Add(Properties.Resources.LoginEndpoint, RedirectUri.Login);
             endPoints.Add(Properties.Resources.SetSessionEndpoint, RedirectUri.Settings);
             endpoints.Add(Properties.Resources.AttendanceEndpoint, RedirectUri.AttendanceGet);
         }
+
+        //This is where we check to see if a redirect has meaning to us. If it does, we go there next (if we weren't going there next anyway)
         private void enqueueRedirect(Queue<Tuple<string, RedirectUri>> script, HttpResponseMessage response)
         {
             foreach (string endpoint in endPoints.Keys)

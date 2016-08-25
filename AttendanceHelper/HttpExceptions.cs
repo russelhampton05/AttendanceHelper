@@ -6,6 +6,7 @@ using System.Text;
 
 namespace AttendanceHelper
 {
+    //The idea of these exceptions is to catch the most specific ones first and then allow them to bubble up to more general catches.
     public class GetFailed : Exception
     {
         public readonly HttpResponseMessage reseponse = null;

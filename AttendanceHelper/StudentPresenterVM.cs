@@ -10,12 +10,9 @@ using System.Windows.Input;
 
 namespace AttendanceHelper
 {
-    /// <summary>
-    /// I heavily borrowed this and the xaml from
-    /// http://stackoverflow.com/questions/15652597/wpf-toolkit-for-tile-listview
-    /// and adapted it to my needs. Origional post by adabyron. Great example!
-    /// 
-    /// </summary>
+   /// <summary>
+   /// Used MVVM to interact with the attendance window. In this file is the VM and the Model.
+   /// </summary>
     public class StudentPresenterVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

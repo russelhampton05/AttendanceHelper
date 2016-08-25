@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace AttendanceHelper
 {
+    //The target website has a weird settings page that occasionally pops up. This handler is for that page.
     class SettingSelectHandler : BaseHTTPHandler
     {
         string extensionURL;
