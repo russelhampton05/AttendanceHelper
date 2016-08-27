@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace AttendanceHelper
@@ -31,7 +32,7 @@ namespace AttendanceHelper
             LoginCommand = new ActionCommand(GetUser);
             AttendanceCommand = new ActionCommand(LaunchAttendance);
             SaveUserCommand = new ActionCommand(SaveUser);
-            user.appname = "Testtttt";
+           
         }
 
         private void GetUser()
@@ -59,7 +60,21 @@ namespace AttendanceHelper
         }
         private void SaveUser()
         {
-
+            if(user.user ==null)
+            {
+                return;
+            }
+            if(!user.CheckUserFilled())
+            {
+                MessageBox.Show("Please fill out app name, website name, and website password to store a new user");
+                return;
+            }
+            UserManager um = new UserManager(log);
+            user.UpdateUser();
+            if(!um.SaveUser(user.user))
+            {
+                MessageBox.Show("Saved user failed");
+            }
         }
 
         #region Yayboilerplatecode
@@ -77,7 +92,7 @@ namespace AttendanceHelper
     public class UserModel : INotifyPropertyChanged
     {
         private User _user;
-        public User user { get { return _user; } set { _user = value; UpdateUser(); OnPropertyChanged("user"); } }
+        public User user { get { return _user; } set { _user = value; UpateUserModel(); OnPropertyChanged("user"); } }
 
         private string _name = string.Empty;
         public string name { get { return _name; } set { _name = value; _user.username = value; OnPropertyChanged("name"); } }
@@ -88,6 +103,15 @@ namespace AttendanceHelper
         public string appname { get { return _appname; } set { user.appUser = value; _appname = value; OnPropertyChanged("appname"); } }
         private string _appname = string.Empty;
         
+        public bool CheckUserFilled()
+        {
+            bool isFilled = true;
+            if(String.IsNullOrEmpty(name) || String.IsNullOrEmpty(appname) || String.IsNullOrEmpty(password))
+            {
+                isFilled = false;
+            }
+            return isFilled;
+        }
         public UserModel()
         {
             user = new User();
@@ -96,7 +120,18 @@ namespace AttendanceHelper
         {
             this.user = user;
         }
-        private void UpdateUser()
+        public void UpdateUser(User user)
+        {
+            this.user = new User(user);
+        }
+        public void UpdateUser()
+        {
+            user.appUser = appname;
+            user.username = name;
+            user.password = password;
+            user.email = email;
+        }
+        private void UpateUserModel()
         {
             name = user.username;
             appname = user.appUser;

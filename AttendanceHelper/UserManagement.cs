@@ -106,15 +106,16 @@ namespace AttendanceHelper
 
                 password = EncryptionManager.SimpleEncrypt(password, key);
                 username = EncryptionManager.SimpleEncrypt(username, key);
-                email = EncryptionManager.SimpleDecrypt(email, key);
+                email = EncryptionManager.SimpleEncrypt(email, key);
 
                 string passwordPath = pathToPasswordPrefix + user.appUser + pathToPasswordTail;
                 string userPath = pathToUsernamePrefix + user.appUser + pathToUsernameTail;
                 string keyPath = pathToKeyPrefix + user.appUser + pathToKeyTail;
-                string emailPath = pathToEmailPrefix + username + pathToEmailTail;
+                string emailPath = pathToEmailPrefix + user.appUser + pathToEmailTail;
 
                 File.WriteAllText(passwordPath, password);
                 File.WriteAllText(userPath, username);
+                File.WriteAllText(emailPath, email);
                 File.WriteAllBytes(keyPath, user.key);
             }
             catch (Exception e)
@@ -149,6 +150,14 @@ namespace AttendanceHelper
         {
             key = EncryptionManager.NewKey();
         }
+        public User(User user)
+        {
+            this.appUser = user.appUser;
+            this.username = user.username;
+            this.password = user.password;
+            this.key = user.key;
+            this.email = user.email;
+        }
     }
 
 
@@ -166,7 +175,7 @@ namespace AttendanceHelper
         //Preconfigured Password Key Derivation Parameters
         public static readonly int SaltBitSize = 128;
         public static readonly int Iterations = 10000;
-        public static readonly int MinPasswordLength = 12;
+        public static readonly int MinPasswordLength = 1;
 
 
         /// <summary>
