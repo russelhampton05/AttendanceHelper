@@ -26,7 +26,7 @@
                 <TextBox DockPanel.Dock="Left" Margin="75,5,5,5" Text="{Binding user.email, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" LastChildFill="False">
-                <Button Content="Login" DockPanel.Dock="Right" Height="25" Margin ="5" Width="50"  Command="{Binding LoginCommand}" ToolTip="Fill out app username and login to get saved user" RenderTransformOrigin="0.504,0.5"></Button>
+                <Button Content="Recall User" DockPanel.Dock="Right" Height="25" Margin ="5" Width="70"  Command="{Binding LoginCommand}" ToolTip="Fill out app username and login to get saved user" RenderTransformOrigin="0.504,0.5"></Button>
                 <Button Content="Attendance" Command="{Binding AttendanceCommand }" DockPanel.Dock="Right" Height="25" Width="100" Margin="5"></Button>
                 <Button Content="Save User" Command="{Binding SaveUserCommand}" DockPanel.Dock="Right" Height="25" Width="100" Margin="5"></Button>
             </DockPanel>
