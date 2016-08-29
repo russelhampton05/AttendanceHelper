@@ -54,9 +54,24 @@ namespace AttendanceHelper
             }
         }
     
-        private void LaunchAttendance()
+        private async void LaunchAttendance()
         {
-            
+            List<Student> students = new List<Student>();
+            if(!user.CheckUserFilled())
+            {
+                return;
+            }
+            StudentListHandler studentHandler = new StudentListHandler(user.user,Properties.Resources.BaseUrl, log);
+          
+            students = await studentHandler.GetStudentList();
+            if(students == null)
+            {
+                return;
+            }
+            AttendanceWindow attendanceWindow;
+            attendanceWindow = new AttendanceWindow(students);
+            attendanceWindow.ShowDialog();
+          
         }
         private void SaveUser()
         {

@@ -45,17 +45,22 @@ namespace AttendanceHelper
 
         //loop through the known urls that must be navigated in order. If a redirect recommends that another page gets 
         //visited mid-script, then enqueue this redirect to the script.
+
+        /// <summary>
+        /// Returns null on fail
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Student>> GetStudentList()
         {
 
             int redirects = 0;
-            HttpResponseMessage response = null;
+             HttpResponseMessage response = null;
             try
             {
-                while (redirects < maxRedirects)
+                while (redirects < maxRedirects && script.Count>0)
                 {
 
-                    switch (script.Dequeue().Item2)
+                     switch (script.Dequeue().Item2)
                     {
                         case RedirectUri.Login:
                             response = await login.Login(); break;
@@ -72,16 +77,16 @@ namespace AttendanceHelper
 
                     }
                     enqueueRedirect(script, response);
+                    redirects++;
                 }
                 //TODO: make a better ui than these message boxes
 
-                redirects++;
+               
             }
             catch (LoginPostFailed e)
             {
                 MessageBox.Show("Login failed");
                 log.Log(Logger.LogLevel.Errors, "Login failed : " + e.Message);
-
             }
             catch (SetSessionPostFailed e)
             {
@@ -147,7 +152,11 @@ namespace AttendanceHelper
 
         //This is where we check to see if a redirect has meaning to us. If it does, we go there next (if we weren't going there next anyway)
         private void enqueueRedirect(Queue<Tuple<string, RedirectUri>> script, HttpResponseMessage response)
-        {
+          {
+            if(script.Count ==0)
+            {
+                return;
+            }
             foreach (string endpoint in endPoints.Keys)
             {
                 if ((response.RequestMessage.RequestUri.ToString().IndexOf(endpoint) != -1))

@@ -123,7 +123,7 @@
   <data name="AttendanceFuncName" xml:space="preserve">
     <value>StudentId</value>
   </data>
-  <data name="BsaeUrl" xml:space="preserve">
+  <data name="BaseUrl" xml:space="preserve">
     <value>https://grades.tomballisd.net/TAC/</value>
   </data>
   <data name="LoginEndpoint" xml:space="preserve">
