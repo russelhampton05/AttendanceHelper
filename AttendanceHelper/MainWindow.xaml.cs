@@ -30,9 +30,10 @@ namespace AttendanceHelper
         public MainWindow()
         {
             InitializeComponent();
+           
             mainVM = new MainVM(log);
             this.DataContext = mainVM;
-            
+          
         
         }
 

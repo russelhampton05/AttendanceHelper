@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace AttendanceHelper
 {
@@ -15,7 +16,9 @@ namespace AttendanceHelper
         public ICommand AttendanceCommand { get; private set; }
         public ICommand SaveUserCommand { get; private set; }
 
-        
+        System.Timers.Timer timer;
+        private DateTime _emailTime;
+        public DateTime emailTime { get { return _emailTime; } set { _emailTime = value; OnPropertyChanged("emailTime"); } }
         private UserModel _user = new UserModel();
         public UserModel user {get{return _user;} set{_user = value;OnPropertyChanged("user");}}
         
@@ -29,12 +32,33 @@ namespace AttendanceHelper
                 this.log = log;
             }
 
+
+            this.emailTime = emailTime;
             LoginCommand = new ActionCommand(GetUser);
             AttendanceCommand = new ActionCommand(LaunchAttendance);
+            emailTime = DateTime.Now;
+            emailTime = emailTime.AddSeconds(3);
+            SetUpTimer();
             SaveUserCommand = new ActionCommand(SaveUser);
-           
         }
-
+        private void SetUpTimer()
+        {
+            var timespan = emailTime.TimeOfDay - DateTime.Now.TimeOfDay;
+            if (timespan.TotalMilliseconds >= 0)
+            {
+                timer = new System.Timers.Timer(timespan.TotalMilliseconds);
+                timer.AutoReset = true;
+                timer.Elapsed += SendEmail;
+                timer.Start();
+            }
+        }
+        private void SendEmail(object sender, System.Timers.ElapsedEventArgs args)
+        {
+            MessageBox.Show("Time elapsed");
+         
+            
+            
+        }
         private void GetUser()
         {
             if(String.IsNullOrEmpty(user.appname))
@@ -117,7 +141,9 @@ namespace AttendanceHelper
         public string email { get { return _email; } set { _user.email = value; _email = value; OnPropertyChanged("email"); } }
         public string appname { get { return _appname; } set { user.appUser = value; _appname = value; OnPropertyChanged("appname"); } }
         private string _appname = string.Empty;
-        
+        public string email_password { get { return _email_password; } set { user.email_password = value; _email_password = value; OnPropertyChanged("email_password"); } }
+        private string _email_password = string.Empty;
+
         public bool CheckUserFilled()
         {
             bool isFilled = true;
@@ -145,9 +171,13 @@ namespace AttendanceHelper
             user.username = name;
             user.password = password;
             user.email = email;
+            user.email_password = email_password;
+         
         }
         private void UpateUserModel()
         {
+            email_password = user.email_password;
+        
             name = user.username;
             appname = user.appUser;
             password = user.password;

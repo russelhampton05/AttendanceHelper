@@ -21,6 +21,8 @@ namespace AttendanceHelper
         Logger log;
         private readonly string basePath;
         private readonly string pathToEmailTail = "_crypto_email.txt";
+   
+        private readonly string pathToEmailPassTail = "_crypto_email_pass.txt";
         private readonly string pathToPasswordTail = "_crypto_password.txt";
         private readonly string pathToUsernameTail = "_crypto.txt";
         private readonly string pathToKeyTail = "_key.txt";
@@ -28,6 +30,8 @@ namespace AttendanceHelper
         private readonly string pathToUsernamePrefix;
         private readonly string pathToEmailPrefix;
         private readonly string pathToKeyPrefix;
+ 
+        private readonly string pathToEmailPassPrefix;
         public UserManager(Logger log = null)
         {
             if (log == null)
@@ -43,6 +47,8 @@ namespace AttendanceHelper
             pathToUsernamePrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
             pathToKeyPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
             pathToEmailPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
+        
+            pathToEmailPassPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
         }
 
         //Null on not found
@@ -57,7 +63,8 @@ namespace AttendanceHelper
                 string userPath = pathToUsernamePrefix + username + pathToUsernameTail;
                 string keyPath = pathToKeyPrefix + username + pathToKeyTail;
                 string emailPath = pathToEmailPrefix + username + pathToEmailTail;
-
+          
+                string emailPasswordPath = pathToEmailPassPrefix + username + pathToEmailPassTail;
                 if (!File.Exists(passwordPath))
                 {
                     allFilesPresent = false;
@@ -70,11 +77,6 @@ namespace AttendanceHelper
                 {
                     allFilesPresent = false;
                 }
-                if (!File.Exists(emailPath))
-                {
-                    allFilesPresent = false;
-                }
-
                 if (allFilesPresent)
                 {
                     user = new User();
@@ -82,7 +84,16 @@ namespace AttendanceHelper
                     user.password = File.ReadAllText(passwordPath);
                     user.key = File.ReadAllBytes(keyPath);
                     user.username = File.ReadAllText(userPath);
-                    user.email = File.ReadAllText(emailPath);
+                    //user name not really mandatory so make individual checks
+                    if (File.Exists(emailPath))
+                    {
+                        user.email = File.ReadAllText(emailPath);
+                    }
+                    if (File.Exists(emailPasswordPath))
+                    {
+                        user.email_password = File.ReadAllText(emailPasswordPath);
+                    }
+                   
                     DecryptUser(user);
                 }
             }
@@ -102,21 +113,23 @@ namespace AttendanceHelper
                 string password = user.password;
                 string username = user.username;
                 string email = user.email;
+                string emailpass = user.email_password;
                 byte[] key = user.key;
 
                 password = EncryptionManager.SimpleEncrypt(password, key);
                 username = EncryptionManager.SimpleEncrypt(username, key);
                 email = EncryptionManager.SimpleEncrypt(email, key);
-
+                emailpass = EncryptionManager.SimpleEncrypt(emailpass, key);
                 string passwordPath = pathToPasswordPrefix + user.appUser + pathToPasswordTail;
                 string userPath = pathToUsernamePrefix + user.appUser + pathToUsernameTail;
                 string keyPath = pathToKeyPrefix + user.appUser + pathToKeyTail;
                 string emailPath = pathToEmailPrefix + user.appUser + pathToEmailTail;
-
+                string emailPassPath = pathToEmailPassPrefix + user.appUser + pathToEmailPassTail;
                 File.WriteAllText(passwordPath, password);
                 File.WriteAllText(userPath, username);
                 File.WriteAllText(emailPath, email);
                 File.WriteAllBytes(keyPath, user.key);
+                File.WriteAllText(emailPassPath, emailpass);
             }
             catch (Exception e)
             {
@@ -144,6 +157,7 @@ namespace AttendanceHelper
         public string appUser;
         public string username;
         public string password;
+        public string email_password;
         public byte[] key;
         public string email;
         public User()
@@ -156,6 +170,8 @@ namespace AttendanceHelper
             this.username = user.username;
             this.password = user.password;
             this.key = user.key;
+          
+            this.email_password = user.email_password;
             this.email = user.email;
         }
     }

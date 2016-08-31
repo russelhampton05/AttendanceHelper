@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:local="clr-namespace:AttendanceHelper"
         mc:Ignorable="d"
         Title="AttendanceHelper" Height="532.481" Width="1014.219">
@@ -24,6 +25,14 @@
             <DockPanel DockPanel.Dock="Top" Visibility="Visible">
                 <Label Content="Email" Margin="5" DockPanel.Dock="Left"></Label>
                 <TextBox DockPanel.Dock="Left" Margin="75,5,5,5" Text="{Binding user.email, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Email Password " Margin="5,5,0,5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="25,5,5,5" Text="{Binding user.email_password, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Email time" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
+                <wpfTool:DateTimePicker x:Name="emailTime" Margin="48,5,5,5" Format="ShortTime" Value="{Binding emailTime, Mode=TwoWay}" FormatString="hh:mm tt"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                 <Button Content="Recall User" DockPanel.Dock="Right" Height="25" Margin ="5" Width="70"  Command="{Binding LoginCommand}" ToolTip="Fill out app username and login to get saved user" RenderTransformOrigin="0.504,0.5"></Button>
