@@ -71,7 +71,14 @@ namespace AttendanceHelper
                 {
                     string lastName = attribute.Substring(attribute.IndexOf(':')+1);
                     string FirstName = studentStringList[studentStringList.IndexOf(attribute) + 1];
-                    FirstName = FirstName.Substring(0, FirstName.LastIndexOf(' '));
+                    if(FirstName[0] == ' ')
+                    {
+                        FirstName = FirstName.Substring(1, FirstName.Length - 1);
+                    }
+                    if (FirstName.IndexOf(' ')!=-1)
+                    {
+                        FirstName = FirstName.Substring(0, FirstName.LastIndexOf(' '));
+                    }
                     FirstName.Replace(" ", "");
                     Student student = new Student();
                     student.name = FirstName + " " + lastName;

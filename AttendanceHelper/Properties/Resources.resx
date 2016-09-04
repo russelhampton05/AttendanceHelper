@@ -126,6 +126,13 @@
   <data name="BaseUrl" xml:space="preserve">
     <value>https://grades.tomballisd.net/TAC/</value>
   </data>
+  <data name="DefaultWaitTime" xml:space="preserve">
+    <value>30</value>
+    <comment>Default values for the timers that send email and close the attendance</comment>
+  </data>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>Attendance Report</value>
+  </data>
   <data name="LoginEndpoint" xml:space="preserve">
     <value>Account/LogOn/</value>
   </data>

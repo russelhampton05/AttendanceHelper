@@ -9,9 +9,9 @@
         Title="AttendanceHelper" Height="532.481" Width="1014.219">
 
     <DockPanel HorizontalAlignment="Center" Background="AliceBlue">
-        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="100,150,100,0">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="100,50,100,0">
             <DockPanel DockPanel.Dock="Top">
-                <Label Content="App Username" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
+                <Label FontWeight="ExtraBold" Content="App Username" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
                 <TextBox Text="{Binding user.appname, Mode=TwoWay}" DockPanel.Dock="Left" Margin="25,5,5,5" Width="180" Height="30" ToolTip="If a user has been saved, typing only the app username and hitting login will populate fields"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Visibility="Visible">
@@ -23,16 +23,24 @@
                 <TextBox DockPanel.Dock="Left" Margin="8,5,5,5" Text="{Binding user.password, Mode=TwoWay}" Width="180" Height="30"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Visibility="Visible">
-                <Label Content="Email" Margin="5" DockPanel.Dock="Left"></Label>
-                <TextBox DockPanel.Dock="Left" Margin="75,5,5,5" Text="{Binding user.email, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
+                <Label Content="Email To" Margin="5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="60,5,5,5" Text="{Binding user.email, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Visibility="Visible">
-                <Label Content="Email Password " Margin="5,5,0,5" DockPanel.Dock="Left"></Label>
+                <Label Content="Email From" Margin="5" DockPanel.Dock="Left"></Label>
+                <TextBox DockPanel.Dock="Left" Margin="45,5,5,5" Text="{Binding user.email_from, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Email Password" Margin="5" DockPanel.Dock="Left"></Label>
                 <TextBox DockPanel.Dock="Left" Margin="25,5,5,5" Text="{Binding user.email_password, Mode=TwoWay}" Width = "180" Height="30"></TextBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" Visibility="Visible">
-                <Label Content="Email time" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
-                <wpfTool:DateTimePicker x:Name="emailTime" Margin="48,5,5,5" Format="ShortTime" Value="{Binding emailTime, Mode=TwoWay}" FormatString="hh:mm tt"/>
+                <Label Content="Close Window Time " Margin="5,5,0,5" DockPanel.Dock="Left"></Label>
+                <wpfTool:TimePicker x:Name="windowCloseTime" Margin="2,5,5,5" Format="ShortTime" Value="{Binding windowCloseTime, Mode=TwoWay}" FormatString="hh:mm tt"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top" Visibility="Visible">
+                <Label Content="Email Time" Margin="5,5,5,5" DockPanel.Dock="Left"></Label>
+                <wpfTool:TimePicker x:Name="emailTime" Margin="48,5,5,5" Format="ShortTime" Value="{Binding emailTime, Mode=TwoWay}" FormatString="hh:mm tt"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                 <Button Content="Recall User" DockPanel.Dock="Right" Height="25" Margin ="5" Width="70"  Command="{Binding LoginCommand}" ToolTip="Fill out app username and login to get saved user" RenderTransformOrigin="0.504,0.5"></Button>

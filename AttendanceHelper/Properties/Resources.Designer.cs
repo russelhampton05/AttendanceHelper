@@ -88,6 +88,24 @@ namespace AttendanceHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 30.
+        /// </summary>
+        internal static string DefaultWaitTime {
+            get {
+                return ResourceManager.GetString("DefaultWaitTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance Report.
+        /// </summary>
+        internal static string EmailSubject {
+            get {
+                return ResourceManager.GetString("EmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account/LogOn/.
         /// </summary>
         internal static string LoginEndpoint {

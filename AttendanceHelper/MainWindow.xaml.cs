@@ -30,13 +30,26 @@ namespace AttendanceHelper
         public MainWindow()
         {
             InitializeComponent();
-           
+
             mainVM = new MainVM(log);
             this.DataContext = mainVM;
-          
+            mainVM.attendanceLaunched += HideWindow;
+            mainVM.emailSent += CloseGracefully;
         
         }
-
+        public void HideWindow(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+        public void CloseGracefully(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                this.Close();
+                Application.Current.Shutdown();
+            });
+        }
+     
        
     }
 }

@@ -22,16 +22,20 @@ namespace AttendanceHelper
         private readonly string basePath;
         private readonly string pathToEmailTail = "_crypto_email.txt";
    
-        private readonly string pathToEmailPassTail = "_crypto_email_pass.txt";
+     
         private readonly string pathToPasswordTail = "_crypto_password.txt";
         private readonly string pathToUsernameTail = "_crypto.txt";
         private readonly string pathToKeyTail = "_key.txt";
         private readonly string pathToPasswordPrefix;
+        private readonly string pathToEmailFromTail = "_crypto_email_from.txt";
+        private readonly string pathToEmailPassTail = "_crypt_email_pass.txt";
         private readonly string pathToUsernamePrefix;
         private readonly string pathToEmailPrefix;
+        private readonly string pathToEmailFromPrefix;
+        private readonly string pathToEmailPassPrefix;
         private readonly string pathToKeyPrefix;
  
-        private readonly string pathToEmailPassPrefix;
+
         public UserManager(Logger log = null)
         {
             if (log == null)
@@ -47,8 +51,11 @@ namespace AttendanceHelper
             pathToUsernamePrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
             pathToKeyPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
             pathToEmailPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
-        
+            pathToEmailFromPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
             pathToEmailPassPrefix = basePath + AppDomain.CurrentDomain.FriendlyName;
+
+
+
         }
 
         //Null on not found
@@ -63,8 +70,8 @@ namespace AttendanceHelper
                 string userPath = pathToUsernamePrefix + username + pathToUsernameTail;
                 string keyPath = pathToKeyPrefix + username + pathToKeyTail;
                 string emailPath = pathToEmailPrefix + username + pathToEmailTail;
-          
-                string emailPasswordPath = pathToEmailPassPrefix + username + pathToEmailPassTail;
+                string emailFrom = pathToEmailFromPrefix + username + pathToEmailFromTail;
+                string emailPass = pathToEmailPassPrefix + username + pathToEmailPassTail;
                 if (!File.Exists(passwordPath))
                 {
                     allFilesPresent = false;
@@ -89,11 +96,14 @@ namespace AttendanceHelper
                     {
                         user.email = File.ReadAllText(emailPath);
                     }
-                    if (File.Exists(emailPasswordPath))
+                    if (File.Exists(emailFrom))
                     {
-                        user.email_password = File.ReadAllText(emailPasswordPath);
+                        user.email_from= File.ReadAllText(emailFrom);
                     }
-                   
+                    if (File.Exists(emailPass))
+                    {
+                        user.email_password = File.ReadAllText(emailPass);
+                    }
                     DecryptUser(user);
                 }
             }
@@ -113,23 +123,48 @@ namespace AttendanceHelper
                 string password = user.password;
                 string username = user.username;
                 string email = user.email;
-                string emailpass = user.email_password;
+                string email_from = user.email_from;
+                string email_password = user.email_password;
                 byte[] key = user.key;
 
                 password = EncryptionManager.SimpleEncrypt(password, key);
                 username = EncryptionManager.SimpleEncrypt(username, key);
-                email = EncryptionManager.SimpleEncrypt(email, key);
-                emailpass = EncryptionManager.SimpleEncrypt(emailpass, key);
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email = EncryptionManager.SimpleEncrypt(email, key);
+                    string emailPath = pathToEmailPrefix + user.appUser + pathToEmailTail;
+                    File.WriteAllText(emailPath, email);
+                }
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email_from = EncryptionManager.SimpleEncrypt(email_from, key);
+                    string emailFromPath = pathToEmailFromPrefix + user.appUser + pathToEmailFromTail;
+                    File.WriteAllText(emailFromPath, email_from);
+                }
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email_password = EncryptionManager.SimpleEncrypt(email_password, key);
+                    string emailPassPath = pathToEmailPassPrefix + user.appUser + pathToEmailPassTail;
+                    File.WriteAllText(emailPassPath, email_password);
+                }
+                
+            
+
                 string passwordPath = pathToPasswordPrefix + user.appUser + pathToPasswordTail;
                 string userPath = pathToUsernamePrefix + user.appUser + pathToUsernameTail;
                 string keyPath = pathToKeyPrefix + user.appUser + pathToKeyTail;
-                string emailPath = pathToEmailPrefix + user.appUser + pathToEmailTail;
-                string emailPassPath = pathToEmailPassPrefix + user.appUser + pathToEmailPassTail;
+               
+             
+                
+
                 File.WriteAllText(passwordPath, password);
                 File.WriteAllText(userPath, username);
-                File.WriteAllText(emailPath, email);
+               
+               
+             
                 File.WriteAllBytes(keyPath, user.key);
-                File.WriteAllText(emailPassPath, emailpass);
+               
+              
             }
             catch (Exception e)
             {
@@ -144,6 +179,8 @@ namespace AttendanceHelper
             user.password = EncryptionManager.SimpleDecrypt(user.password, user.key);
             user.username = EncryptionManager.SimpleDecrypt(user.username, user.key);
             user.email = EncryptionManager.SimpleDecrypt(user.email, user.key);
+            user.email_from = EncryptionManager.SimpleDecrypt(user.email_from, user.key);
+            user.email_password = EncryptionManager.SimpleDecrypt(user.email_password, user.key);
         }
 
 
@@ -157,9 +194,11 @@ namespace AttendanceHelper
         public string appUser;
         public string username;
         public string password;
+        public string email;
+        public string email_from;
         public string email_password;
         public byte[] key;
-        public string email;
+     
         public User()
         {
             key = EncryptionManager.NewKey();
@@ -170,7 +209,7 @@ namespace AttendanceHelper
             this.username = user.username;
             this.password = user.password;
             this.key = user.key;
-          
+            this.email_from = user.email_from;
             this.email_password = user.email_password;
             this.email = user.email;
         }

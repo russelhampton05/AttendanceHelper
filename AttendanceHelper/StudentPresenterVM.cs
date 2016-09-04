@@ -15,20 +15,24 @@ namespace AttendanceHelper
    /// </summary>
     public class StudentPresenterVM : INotifyPropertyChanged
     {
+        #region INotifyImplementation
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
+
+       
         private ObservableCollection<StudentModel> _tiles;
         public ObservableCollection<StudentModel> Tiles { get { return _tiles; } set { _tiles = value; OnPropertyChanged("Tiles"); } }
 
         public StudentPresenterVM(List<Student> students)
         {
             Tiles = new ObservableCollection<StudentModel>(populateStudentModel(students));
-            
+          
         }
 
         private List<StudentModel> populateStudentModel(List<Student> students)
